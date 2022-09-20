@@ -2,13 +2,6 @@ import { StyleSheet } from 'react-native';
 import { THEME } from '../../theme';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: "flex",
-    backgroundColor: THEME.COLORS.PRIMARY,
-    width: "100%",
-
-  },
   header: {
     display: "flex",
     flexDirection: "row",
@@ -16,6 +9,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 30,
     paddingHorizontal: "10%",
+    marginTop:27,
   },
   logo: {
     textDecoration: "none",
