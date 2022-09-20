@@ -3,13 +3,14 @@ import { styles } from './styles';
 
 interface IHeaderProps {
   handleClickMyFilms: () => void;
+  handleClickHome: () => void;
 }
 
-export function Header({ handleClickMyFilms }: IHeaderProps) {
+export function Header({ handleClickMyFilms, handleClickHome }: IHeaderProps) {
 
   return (
     <View style={styles.header}>
-      <Text style={styles.logo}>Flix</Text>
+      <Text style={styles.logo} onPress={() => handleClickHome()}>Flix</Text>
       <TouchableOpacity style={styles.button} onPress={() => handleClickMyFilms()}>
         <Text style={styles.buttonText}>Meus Filmes</Text>
       </TouchableOpacity>

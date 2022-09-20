@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../pages/Home';
 import { Details } from '../pages/Details';
+import { Movie } from '../pages/Movie';
 
 const Stack = createNativeStackNavigator();
 export function Routes() {
@@ -10,6 +11,7 @@ export function Routes() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Home" component={Home}/>
+        <Stack.Screen name="Movie" component={Movie}/>
         <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -9,12 +9,15 @@ export function Home() {
   const { navigate } = useNavigation();
 
   const handleClickMyFilms = () => {
-    navigate("Details")
+    navigate("Movie")
+  }
+  const handleClickHome = () => {
+    navigate("Movie")
   }
 
   return (
     <View>
-      <Header handleClickMyFilms={handleClickMyFilms} />
+      <Header handleClickMyFilms={handleClickMyFilms} handleClickHome={handleClickHome} />
       <View style={styles.listaFilmes}>
         <Text style={styles.listKey} />
         <Text style={styles.listTitle}>Teste</Text>

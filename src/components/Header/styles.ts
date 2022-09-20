@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 30,
     paddingHorizontal: "10%",
-    marginTop:27,
+    // marginTop:27,
   },
   logo: {
     textDecoration: "none",
