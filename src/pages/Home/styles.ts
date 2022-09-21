@@ -6,9 +6,6 @@ export const styles = StyleSheet.create({
     maxWidth: 800,
     margin: 14,
   },
-  listKey:{
-    width: "100%",
-  },
   listTitle:{
     marginBottom: 14,
     textAlign: "center",
@@ -17,8 +14,7 @@ export const styles = StyleSheet.create({
   },
   listImg:{
     maxWidth: "100%",
-    maxHeight: 200,
-    objectFit: "cover",
+    minHeight: 200,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
