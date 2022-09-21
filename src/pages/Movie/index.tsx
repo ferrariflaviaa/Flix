@@ -3,12 +3,13 @@ import { Header } from "../../components/Header";
 import { useNavigation } from "@react-navigation/native";
 import teste from "../../assets/teste.jpg";
 import { styles } from "./styles";
+
 export function Movie() {
 
   const { navigate } = useNavigation();
 
   const handleClickMyFilms = () => {
-    navigate("Details")
+    navigate("Favorites")
   }
   const handleClickHome = () => {
     navigate("Home")

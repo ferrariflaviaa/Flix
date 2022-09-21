@@ -9,9 +9,12 @@ export function Home() {
   const { navigate } = useNavigation();
 
   const handleClickMyFilms = () => {
-    navigate("Movie")
+    navigate("Favorites")
   }
   const handleClickHome = () => {
+    navigate("Home")
+  }
+  const handleClickMovie = () => {
     navigate("Movie")
   }
 
@@ -22,7 +25,7 @@ export function Home() {
         <Text style={styles.listKey} />
         <Text style={styles.listTitle}>Teste</Text>
         <Image source={teste} style={styles.listImg} />
-        <TouchableOpacity onPress={() => handleClickMyFilms()}>
+        <TouchableOpacity onPress={() => handleClickMovie()}>
           <Text style={styles.button}>Acessar</Text>
         </TouchableOpacity>
       </View>
