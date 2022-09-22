@@ -1,12 +1,57 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, Alert, FlatList } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+// import 
 import { Header } from "../../components/Header";
-import { useNavigation } from "@react-navigation/native";
-import teste from "../../assets/teste.jpg";
+import { useEffect, useState } from 'react';
+import api from "../../services/api"
 import { styles } from "./styles";
+import { IFilms } from "../Home";
+
+interface IFilm  extends IFilms{
+  overview: string;
+  backdrop_path: string;
+  
+}
 
 export function Movie() {
-
+  const route = useRoute();
+  const id = route.params;
   const { navigate } = useNavigation();
+  const [film, setFilm] = useState<IFilm>();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadFilme() {
+      await api.get(`/movie/${id}`, {
+        params: {
+          api_key: "302f40e4989597a8086998d375a42d9d",
+          language: "pt-BR",
+        }
+      })
+        .then((response) => {
+          setFilm(response.data);
+          setLoading(false);
+          console.log(response.data)
+        })
+        .catch(() => {
+          //"FILME NÃO ENCOTRANDO"
+          navigate("Home");
+          return;
+        })
+    }
+    loadFilme();
+
+    return () => {
+      console.log("COMPONENTE FOI DESMONTADO")
+    }
+  }, [navigate, id]);
+
+  function SalvarFilme() {
+    if (hasfilme) {
+      return Alert.alert("Ocorreu um errro inesperado!", "Este filme já esta em sua lista de favoritos");
+    }
+    return Alert.alert("Filme salvo", "Seu filme foi salvo com sucesso!");
+  }
 
   const handleClickMyFilms = () => {
     navigate("Favorites")
@@ -16,13 +61,14 @@ export function Movie() {
   }
 
   return (
-    <View>
-      <Header handleClickMyFilms={handleClickMyFilms} handleClickHome={handleClickHome}/>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Title</Text>
-        <Image source={teste} style={styles.imge} />
+    <View style={styles.container}>
+      <Header handleClickMyFilms={handleClickMyFilms} handleClickHome={handleClickHome} />
+      <ScrollView contentContainerStyle={{paddingVertical: '6%'}} style={styles.content} showsVerticalScrollIndicator={false}>
+''
+        <Text style={styles.title}>{film?.title}</Text>
+        <Image source={{uri: `https://image.tmdb.org/t/p/original/${film?.backdrop_path}`}} style={styles.imge} />
         <Text style={styles.titleSinopse}>Sinopse</Text>
-        <Text style={styles.sinopse}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis nulla ut elit dignissim ultrices. Aliquam tempus tortor eget ex tristique rutrum. Aliquam felis augue, gravida non dolor a, euismod rutrum nibh. Aenean fermentum nec nunc sit amet commodo. Curabitur condimentum ex a libero iaculis aliquam. Donec lobortis dictum purus, at tempor libero. Sed tempus scelerisque leo, nec vehicula quam. Nam id turpis non leo blandit varius </Text>
+        <Text style={styles.sinopse}>{film?.overview}</Text>
         <Text style={styles.avaliacao}>Avaliação</Text>
         <View style={styles.acao}>
           <TouchableOpacity>

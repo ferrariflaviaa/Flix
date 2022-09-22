@@ -2,15 +2,15 @@ import { StyleSheet } from 'react-native';
 import { THEME } from '../../theme';
 
 export const styles = StyleSheet.create({
-  container: {
+  container:{
+    flex: 1,
+  },
+  content: {
     marginHorizontal: 20,
     marginVertical: 0,
     marginTop: 18,
     display: "flex",
-    // justifyContent: "center",
-    // flexDirection: "column",
     maxWidth: 800,
-    paddingVertical: 0,
     paddingHorizontal: 8,
   },
 
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     width: 800,
     maxWidth: "100%",
-    maxHeight: 340,
+    height: 340,
   },
   titleSinopse: {
     marginVertical: 14,

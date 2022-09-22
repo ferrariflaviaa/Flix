@@ -4,8 +4,9 @@ import { Header } from "../../components/Header";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles";
 import api from "../../services/api";
+import { useContextApp } from "../../context";
 
-interface IFilmes {
+export interface IFilms {
   id: string;
   title: string;
   poster_path: string;
@@ -14,10 +15,12 @@ interface IFilmes {
 export function Home() {
 
   const { navigate } = useNavigation();
-  const [filmes, setFilmes] = useState<IFilmes[]>([]);
+  const [filmes, setFilmes] = useState<IFilms[]>([]);
   const [loading, setLoading] = useState(true);
+  const { favorites } = useContextApp();
 
   useEffect(() => {
+    console.log(favorites)
     async function loadFilmes() {
       const response = await api.get("movie/now_playing", {
         params: {
@@ -39,8 +42,8 @@ export function Home() {
   const handleClickHome = () => {
     navigate("Home")
   }
-  const handleClickMovie = () => {
-    navigate("Movie")
+  const handleClickMovie = (item: IFilms) => {
+    navigate("Movie", item.id)
   }
 
   return (
@@ -60,7 +63,7 @@ export function Home() {
             <Text style={styles.listTitle}>{item.title}</Text>
             <Image source={{ uri: `https://image.tmdb.org/t/p/original${item.poster_path}` }}
               style={styles.listImg} />
-            <TouchableOpacity onPress={() => handleClickMovie()}>
+            <TouchableOpacity onPress={() => handleClickMovie(item)}>
               <Text style={styles.button}>Acessar</Text>
             </TouchableOpacity>
           </View>

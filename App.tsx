@@ -1,17 +1,14 @@
-
-import { StyleSheet, Text, View } from 'react-native';
-import { Header } from './src/components/Header';
 import { StatusBar } from 'react-native';
 import { Routes } from './src/routes';
+import { ContextProvider } from './src/context';
 
 
 export default function App() {
   return (
-    <>
-      <StatusBar barStyle="light-content"
-         />
+    <ContextProvider>
+      <StatusBar barStyle="light-content"/>
       <Routes />
-    </>
+    </ContextProvider>
   );
 }
 
