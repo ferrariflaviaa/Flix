@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, Alert, FlatList } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, Alert, FlatList, Linking } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 // import 
 import { Header } from "../../components/Header";
@@ -10,12 +10,14 @@ import { IFilms } from "../Home";
 interface IFilm extends IFilms {
   overview: string;
   backdrop_path: string;
-
+}
+interface IFilmParms {
+  id: string;
 }
 
 export function Movie() {
   const route = useRoute();
-  const id = route.params;
+  const { id } = route.params as IFilmParms;
   const { navigate } = useNavigation();
   const [film, setFilm] = useState<IFilm>();
   const [loading, setLoading] = useState(true);
@@ -34,8 +36,8 @@ export function Movie() {
           console.log(response.data)
         })
         .catch(() => {
-          //"FILME NÃO ENCOTRANDO"
-          navigate("home");
+          "FILME NÃO ENCOTRANDO"
+          navigate("Home");
           return;
         })
     }
@@ -46,18 +48,18 @@ export function Movie() {
     }
   }, [navigate, id]);
 
-  // function SalvarFilme() {
-  //   if (hasfilme) {
-  //     return Alert.alert("Ocorreu um errro inesperado!", "Este filme já esta em sua lista de favoritos");
-  //   }
-  //   return Alert.alert("Filme salvo", "Seu filme foi salvo com sucesso!");
-  // }
+  function SalvarFilme() {
+    // if (hasfilme) {
+    return Alert.alert("Ocorreu um errro inesperado!", "Este filme já esta em sua lista de favoritos");
+    // }
+    // return Alert.alert("Filme salvo", "Seu filme foi salvo com sucesso!");
+  }
 
   const handleClickMyFilms = () => {
-    navigate("favorites");
+    navigate("Favorites");
   }
   const handleClickHome = () => {
-    navigate("home");
+    navigate("Home");
   }
 
   return (
@@ -70,7 +72,7 @@ export function Movie() {
         <Text style={styles.sinopse}>{film?.overview}</Text>
         <Text style={styles.avaliacao}>Avaliação</Text>
         <View style={styles.acao}>
-          <TouchableOpacity >
+          <TouchableOpacity onPress={() => SalvarFilme()}>
             <Text style={styles.button}>Salvar</Text>
           </TouchableOpacity>
           <TouchableOpacity>

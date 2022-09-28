@@ -37,13 +37,13 @@ export function Home() {
 
   //FUNÇÕES DOS BOTÕES:
   const handleClickMyFilms = () => {
-    navigate("favorites")
+    navigate("Favorites")
   }
   const handleClickHome = () => {
-    navigate("home")
+    navigate("Home")
   }
-  const handleClickMovie = (item: IFilms) => {
-    navigate("movie", item.id, item.poster_path, item.title)
+  const handleClickMovie = (id: string) => {
+    navigate("Movie", {id});
   }
 
   return (
@@ -63,7 +63,7 @@ export function Home() {
             <Text style={styles.listTitle}>{item.title}</Text>
             <Image source={{ uri: `https://image.tmdb.org/t/p/original${item.poster_path}` }}
               style={styles.listImg} />
-            <TouchableOpacity onPress={() => handleClickMovie(item)}>
+            <TouchableOpacity onPress={() => handleClickMovie(item.id)}>
               <Text style={styles.button}>Acessar</Text>
             </TouchableOpacity>
           </View>
