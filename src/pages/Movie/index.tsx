@@ -7,10 +7,10 @@ import api from "../../services/api"
 import { styles } from "./styles";
 import { IFilms } from "../Home";
 
-interface IFilm  extends IFilms{
+interface IFilm extends IFilms {
   overview: string;
   backdrop_path: string;
-  
+
 }
 
 export function Movie() {
@@ -35,7 +35,7 @@ export function Movie() {
         })
         .catch(() => {
           //"FILME NÃO ENCOTRANDO"
-          navigate("Home");
+          navigate("home");
           return;
         })
     }
@@ -46,32 +46,31 @@ export function Movie() {
     }
   }, [navigate, id]);
 
-  function SalvarFilme() {
-    if (hasfilme) {
-      return Alert.alert("Ocorreu um errro inesperado!", "Este filme já esta em sua lista de favoritos");
-    }
-    return Alert.alert("Filme salvo", "Seu filme foi salvo com sucesso!");
-  }
+  // function SalvarFilme() {
+  //   if (hasfilme) {
+  //     return Alert.alert("Ocorreu um errro inesperado!", "Este filme já esta em sua lista de favoritos");
+  //   }
+  //   return Alert.alert("Filme salvo", "Seu filme foi salvo com sucesso!");
+  // }
 
   const handleClickMyFilms = () => {
-    navigate("Favorites")
+    navigate("favorites");
   }
   const handleClickHome = () => {
-    navigate("Home")
+    navigate("home");
   }
 
   return (
     <View style={styles.container}>
       <Header handleClickMyFilms={handleClickMyFilms} handleClickHome={handleClickHome} />
-      <ScrollView contentContainerStyle={{paddingVertical: '6%'}} style={styles.content} showsVerticalScrollIndicator={false}>
-''
+      <ScrollView contentContainerStyle={{ paddingVertical: '6%' }} style={styles.content} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>{film?.title}</Text>
-        <Image source={{uri: `https://image.tmdb.org/t/p/original/${film?.backdrop_path}`}} style={styles.imge} />
+        <Image source={{ uri: `https://image.tmdb.org/t/p/original/${film?.backdrop_path}` }} style={styles.imge} />
         <Text style={styles.titleSinopse}>Sinopse</Text>
         <Text style={styles.sinopse}>{film?.overview}</Text>
         <Text style={styles.avaliacao}>Avaliação</Text>
         <View style={styles.acao}>
-          <TouchableOpacity>
+          <TouchableOpacity >
             <Text style={styles.button}>Salvar</Text>
           </TouchableOpacity>
           <TouchableOpacity>

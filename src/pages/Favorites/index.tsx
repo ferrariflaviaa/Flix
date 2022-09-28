@@ -8,13 +8,13 @@ export function Favorites() {
   const { navigate } = useNavigation();
 
   const handleClickMyFilms = () => {
-    navigate("Favorites")
+    navigate("favorites")
   }
   const handleClickHome = () => {
-    navigate("Home")
+    navigate("home")
   }
   const handleClickMovie = () => {
-    navigate("Movie")
+    navigate("movie")
   }
   
 

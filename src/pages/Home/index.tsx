@@ -37,13 +37,13 @@ export function Home() {
 
   //FUNÇÕES DOS BOTÕES:
   const handleClickMyFilms = () => {
-    navigate("Favorites")
+    navigate("favorites")
   }
   const handleClickHome = () => {
-    navigate("Home")
+    navigate("home")
   }
   const handleClickMovie = (item: IFilms) => {
-    navigate("Movie", item.id)
+    navigate("movie", item.id, item.poster_path, item.title)
   }
 
   return (
