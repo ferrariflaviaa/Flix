@@ -11,12 +11,15 @@ export const styles = StyleSheet.create({
     fontWeight: "800", 
     textAlign: 'center',
   },
-  list:{
+  listItem:{
     width: "100%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-
+    marginTop: 10  
+},
+  firstItem:{
+    width: "50%"
   }
 })

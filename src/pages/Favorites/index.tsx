@@ -1,28 +1,49 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Alert } from "react-native";
 import { Header } from "../../components/Header";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles";
+import { useContextApp } from "../../context";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Favorites() {
 
-  const { navigate } = useNavigation();
+  const { navigate} = useNavigation();
+  const { favorites, setFavorites } = useContextApp();
 
   const handleClickMyFilms = () => {
-    navigate("favorites")
+    navigate("Favorites")
   }
   const handleClickHome = () => {
-    navigate("home")
+    navigate("Home")
   }
-  const handleClickMovie = () => {
-    navigate("movie")
+  const handleClickMovie = (id: string) => {
+    navigate("Movie", {id})
   }
   
-
-  const data = [
-    { id: 1, titulo: "Teste" },
-    { id: 2, titulo: "Teste 2" },
-    { id: 3, titulo: "Teste 3" },
-  ]
+  const handleDeleteMovie = (id: string) => {
+    Alert.alert(
+      "Excluir filme dos favoritos",
+      "Você deseja excluir o filme de sua lista?",
+      [
+        {
+          text: "Sim",
+          onPress: async() => {
+            const buscarFilme = favorites.find((busca) => busca.id === id );
+            if(buscarFilme){
+              const filterFilms = favorites.filter((busca) => busca.id !== id);
+              await AsyncStorage.setItem("@storage_films", JSON.stringify(filterFilms));
+              setFavorites(filterFilms);
+            }
+          }
+        },
+        {
+          text: "Não",
+          style: "cancel"
+        }
+      ]
+    )
+    
+  }
 
   return (
     <View>
@@ -30,15 +51,17 @@ export function Favorites() {
       <View style={styles.container}>
         <Text style={styles.title}>Meus Filmes</Text>
         <FlatList
-          data={data}
+          data={favorites}
           keyExtractor={(item) => String(item.id)}
-          renderItem={(item) => (
-            <View style={styles.list}>
-              <Text>item.titulo00000000000000</Text>
-              <TouchableOpacity onPress={() => handleClickMovie()}>
+          renderItem={({item}) => (
+            <View style={styles.listItem}>
+              <View style={styles.firstItem}>
+                <Text>{item.title}</Text>
+              </View>
+              <TouchableOpacity onPress={() => handleClickMovie(item.id)}>
                 <Text>Detalhes</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleClickMovie()}>
+              <TouchableOpacity onPress={() => handleDeleteMovie(item.id)}>
                 <Text>Excluir</Text>
               </TouchableOpacity>
             </View>

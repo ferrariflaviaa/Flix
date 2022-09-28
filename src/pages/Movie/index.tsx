@@ -1,15 +1,16 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, Alert, FlatList, Linking } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, Alert, ActivityIndicator, Linking } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-// import 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Header } from "../../components/Header";
 import { useEffect, useState } from 'react';
 import api from "../../services/api"
 import { styles } from "./styles";
 import { IFilms } from "../Home";
+import { IFavorites, useContextApp } from "../../context";
 
 interface IFilm extends IFilms {
-  overview: string;
-  backdrop_path: string;
+  overview?: string;
+  backdrop_path?: string;
 }
 interface IFilmParms {
   id: string;
@@ -19,8 +20,9 @@ export function Movie() {
   const route = useRoute();
   const { id } = route.params as IFilmParms;
   const { navigate } = useNavigation();
-  const [film, setFilm] = useState<IFilm>();
+  const [film, setFilm] = useState<IFilm>({});
   const [loading, setLoading] = useState(true);
+  const { favorites, setFavorites } = useContextApp();
 
   useEffect(() => {
     async function loadFilme() {
@@ -48,11 +50,28 @@ export function Movie() {
     }
   }, [navigate, id]);
 
-  function SalvarFilme() {
-    // if (hasfilme) {
-    return Alert.alert("Ocorreu um errro inesperado!", "Este filme já esta em sua lista de favoritos");
-    // }
-    // return Alert.alert("Filme salvo", "Seu filme foi salvo com sucesso!");
+  async function SalvarFilme(item: IFilm) {
+
+    const buscarFilme = favorites.find((busca) => busca.id === item.id);
+
+    if (buscarFilme) return Alert.alert(
+      "Ocorreu um erro inesperado!",
+      "Este filme já esta em sua lista de favoritos."
+    );
+
+    const novoFilme = {
+      id: item.id,
+      title: item.title
+    } as IFilms;
+
+    const novoVetorFilmes = [...favorites, novoFilme] as IFavorites[];
+
+    await AsyncStorage.setItem("@storage_films", JSON.stringify(novoVetorFilmes));
+    setFavorites(novoVetorFilmes);
+    return Alert.alert(
+      "Parabéns!",
+      "Seu filme foi salvo em sua lista de favoritos."
+    )
   }
 
   const handleClickMyFilms = () => {
@@ -67,12 +86,19 @@ export function Movie() {
       <Header handleClickMyFilms={handleClickMyFilms} handleClickHome={handleClickHome} />
       <ScrollView contentContainerStyle={{ paddingVertical: '6%' }} style={styles.content} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>{film?.title}</Text>
-        <Image source={{ uri: `https://image.tmdb.org/t/p/original/${film?.backdrop_path}` }} style={styles.imge} />
+        {film.backdrop_path === "" ? (
+          <View style={styles.containerLoad}>
+            <ActivityIndicator size="large"  color="#000"/>
+          </View>
+        ) : (
+          <Image source={{ uri: `https://image.tmdb.org/t/p/original/${film?.backdrop_path}` }} style={styles.imge} />
+        )
+        }
         <Text style={styles.titleSinopse}>Sinopse</Text>
         <Text style={styles.sinopse}>{film?.overview}</Text>
         <Text style={styles.avaliacao}>Avaliação</Text>
         <View style={styles.acao}>
-          <TouchableOpacity onPress={() => SalvarFilme()}>
+          <TouchableOpacity onPress={() => SalvarFilme(film)}>
             <Text style={styles.button}>Salvar</Text>
           </TouchableOpacity>
           <TouchableOpacity>

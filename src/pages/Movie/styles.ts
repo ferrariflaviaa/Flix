@@ -26,6 +26,11 @@ export const styles = StyleSheet.create({
     maxWidth: "100%",
     height: 340,
   },
+  containerLoad:{
+    backgroundColor: 'black',
+    width: 800,
+    height: 340,
+  },
   titleSinopse: {
     marginVertical: 14,
     fontSize: THEME.FONT_SIZE.LG,

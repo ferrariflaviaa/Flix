@@ -4,7 +4,7 @@ export declare global{
       Home: undefined;
       // Movie: undefined;
       Movie: {
-        id: string;
+        id?: string;
       };
       Favorites: undefined;
     }

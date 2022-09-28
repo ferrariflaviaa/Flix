@@ -7,9 +7,9 @@ import api from "../../services/api";
 import { useContextApp } from "../../context";
 
 export interface IFilms {
-  id: string;
-  title: string;
-  poster_path: string;
+  id?: string;
+  title?: string;
+  poster_path?: string;
 }
 
 export function Home() {
@@ -42,8 +42,8 @@ export function Home() {
   const handleClickHome = () => {
     navigate("Home")
   }
-  const handleClickMovie = (id: string) => {
-    navigate("Movie", {id});
+  const handleClickMovie = (id?: string) => {
+    navigate("Movie", { id });
   }
 
   return (
@@ -63,7 +63,11 @@ export function Home() {
             <Text style={styles.listTitle}>{item.title}</Text>
             <Image source={{ uri: `https://image.tmdb.org/t/p/original${item.poster_path}` }}
               style={styles.listImg} />
-            <TouchableOpacity onPress={() => handleClickMovie(item.id)}>
+            <TouchableOpacity onPress={() => {
+              if(item){
+                handleClickMovie(item.id)
+              }
+            }}>
               <Text style={styles.button}>Acessar</Text>
             </TouchableOpacity>
           </View>
