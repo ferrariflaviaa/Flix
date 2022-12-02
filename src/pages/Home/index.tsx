@@ -18,6 +18,9 @@ export function Home() {
   const { navigate } = useNavigation();
   const [filmes, setFilmes] = useState<IFilms[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  // const [list, setList] = useState(filmes);
+
   const { favorites } = useContextApp();
 
   useEffect(() => {
@@ -30,11 +33,24 @@ export function Home() {
           page: 1,
         }
       })
-      setFilmes(response.data.results.slice(0, 10));
+      setFilmes(response.data.results.slice(0, 30));
       setLoading(false);
     }
     loadFilmes();
   }, []);
+
+  useEffect(() => {
+    if (search === '') {
+      filmes;
+    } else {
+      setFilmes(
+        filmes.filter(
+          (item) =>
+            item.title.toLowerCase().indexOf(search.toLowerCase()) > -1
+        )
+      );
+    }
+  }, [search]);
 
   //FUNÇÕES DOS BOTÕES:
   const handleClickMyFilms = () => {
@@ -50,7 +66,7 @@ export function Home() {
   return (
     <View>
       <Header handleClickMyFilms={handleClickMyFilms} handleClickHome={handleClickHome} />
-      <Search/>
+      <Search value={search} onChange={setSearch}/>
       <FlatList
         style={styles.listaFilmes}
         contentContainerStyle={{
