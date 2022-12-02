@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles";
 import api from "../../services/api";
 import { useContextApp } from "../../context";
+import { Search } from "../../components/Search";
 
 export interface IFilms {
   id?: string;
@@ -49,6 +50,7 @@ export function Home() {
   return (
     <View>
       <Header handleClickMyFilms={handleClickMyFilms} handleClickHome={handleClickHome} />
+      <Search/>
       <FlatList
         style={styles.listaFilmes}
         contentContainerStyle={{
